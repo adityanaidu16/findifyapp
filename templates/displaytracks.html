@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Song Recommendations
+{% endblock %}
+
+{% block main %}
+    <script type="text/javascript ">
+      function play(soundobj){
+           var audio = document.getElementById(soundobj);
+           audio.volume = 0.1;
+           audio.play();
+      }
+      function stop(soundobj){
+          var audio = document.getElementById(soundobj);
+          audio.pause();
+          audio.currentTime = 0;
+      }
+      function card(image){
+          if (image == 'off') {
+              document.getElementById('spotimg').src = "";
+          }
+          else {
+              var img = document.getElementById(image);
+              var url=img.getAttribute('src');
+              document.getElementById('spotimg').src = url;
+          }
+      }
+      function tracktitle(track){
+          if (track == 'off') {
+              document.getElementById('trackname').innerHTML = "";
+          }
+          else {
+              var name = track;
+              name = name.replace(/®/g, "'").replace(/™/g, '"');
+              document.getElementById('trackname').innerHTML = name;
+          }
+      }
+      function artistnames(stage) {
+          if (stage == 'off') {
+              document.getElementById('songartists').innerHTML = "";
+          }
+          else {
+              var name = stage;
+              name = name.replace(/®/g, "'").replace(/™/g, '"');
+              document.getElementById('songartists').innerHTML = name;
+          }
+      }
+      function releaseinfo(releasedate) {
+          print
+          if (releasedate == 'off') {
+              document.getElementById('releaseinf').innerHTML = "";
+          }
+          else {
+              var date = releasedate;
+              document.getElementById('releaseinf').innerHTML = date;
+          }
+      }
+      function loading() {
+          $("#loading").show();
+          $("#content").hide();
+          $(".alert").slideUp(300);
+      }
+
+    </script>
+    <div id="loading"><img src= "/static/loading.gif" width="250" style="position: top left"></div>
+    <div id="content">
+        <div class="ml-auto" style="width: 21rem; position:absolute; left: 62.5%; margin-top: auto;">
+        <div style="margin-top: 12.5%;">
+          <img class="card-img-top" src="..." id="spotimg" alt=''>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" style="background-color: #141414; border-color: #141414"><font size="+1"><span style="color: #ebdce1" id="trackname"></span></font><br><font size="-1"><span style="color: #dbd9d8" id="songartists"></span><br><font size="-3"><span style="color: #ada9a7" id="releaseinf"></span></font></li>
+          </ul>
+        </div>
+        </div>
+        <div class="row">
+            {% for track in recommendations["tracks"] %}
+                <div class='{{ recommended_tracks[track["id"]][4] }}'>
+                    <div style='height: 100%; width: 100%; object-fit: contain; max-width: 135px; max-height: 135px; overflow: hidden; position: relative; left: -70%;'>
+                        <td>
+                            <form action="/gettracks" method="post">
+                                <button type="submit" name="input1" class="button" value="{{ track['name'] }} {{ recommended_tracks[track["id"]][2] }}" onclick="loading()">
+                                        <img id="{{ track['uri'] }}" src='{{ recommended_tracks[track["id"]][0] }}' width="135" value="PLAY" onmouseover="play( '{{ track['id'] }}' ); card( '{{ track['uri'] }}' ); tracktitle( '{{ recommended_tracks[track["id"]][3] }}' ); artistnames( '{{ recommended_tracks[track["id"]][2] }}' ); releaseinfo( '{{ recommended_tracks[track["id"]][1] }}' );" onmouseout="stop( '{{ track['id'] }}' ); card('off'); tracktitle('off'); artistnames('off'); releaseinfo('off')"/>
+                                </button>
+                            </form>
+                            <audio id="{{ track['id'] }}" src='{{ track['preview_url'] }}' preload="auto"></audio>
+                        </td>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

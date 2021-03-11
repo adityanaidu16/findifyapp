@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Artist Recommendations
+{% endblock %}
+
+{% block main %}
+    <script>
+      function loading() {
+          $("#loading").show();
+          $("#content").hide();
+      }
+    </script>
+    <div id="loading"><img src= "/static/loading.gif" width="250" style="position: top left"></div>
+    <div id="content">
+        <form action="/getartists" method="post">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="artist_name" placeholder="Artist Name" type="text" style="color: #ebdce1; background-color: #1c1c1c;">
+            </div>
+            <button class="btn btn-primary" type="submit" onclick="loading()" style="color: #1c1c1c; background-color: #ebdce1; border-color: #a19496">Submit</button>
+        </form>
+    </div>
+{% endblock %}

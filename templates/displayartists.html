@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Artist Recommendations
+{% endblock %}
+
+{% block main %}
+  <script type="text/javascript ">
+    function play(soundobj){
+         var audio = document.getElementById(soundobj);
+         var artistname = soundobj.replace(/®/g, "'").replace(/™/g, '"');
+         document.getElementById('artistname').innerHTML = artistname;
+         audio.volume = 0.1;
+         audio.play();
+    }
+    function stop(soundobj){
+        var audio = document.getElementById(soundobj);
+        document.getElementById('artistname').innerHTML = "";
+        audio.pause();
+        audio.currentTime = 0;
+    }
+    function card(image){
+      if (image == 'off') {
+        document.getElementById('spotimg').src = "";
+      }
+      else {
+        var img = document.getElementById(image);
+        var url=img.getAttribute('src');
+        document.getElementById('spotimg').src = url;
+      }
+    }
+    function tracktitle(track){
+        if (track == 'off') {
+          document.getElementById('trackname').innerHTML = "";
+        }
+        else {
+          var name = track;
+          name = name.replace(/®/g, "'").replace(/™/g, '"');
+          document.getElementById('trackname').innerHTML = name;
+        }
+    }
+    function artistnames(stage) {
+        if (stage == 'off') {
+          document.getElementById('songartists').innerHTML = "";
+        }
+        else {
+          var name = stage;
+          name = name.replace(/®/g, "'").replace(/™/g, '"');
+          document.getElementById('songartists').innerHTML = name;
+        }
+    }
+    function genrelist(genres) {
+      if (genres == 'off') {
+          document.getElementById('genres').innerHTML = "";
+        }
+      else {
+        var name = genres;
+        document.getElementById('genres').innerHTML = name;
+      }
+    }
+    function followercount(followers) {
+      if (followers == 'off') {
+          document.getElementById('followers').innerHTML = "";
+        }
+      else {
+        var name = followers;
+        document.getElementById('followers').innerHTML = name;
+      }
+    }
+    function loading() {
+          $("#loading").show();
+          $("#content").hide();
+          $(".alert").slideUp(300);
+    }
+
+  </script>
+  <div id="loading"><img src= "/static/loading.gif" width="250" style="position: top left"></div>
+  <div id="content">
+    <div class="ml-auto" style="width: 21rem; position:absolute; left: 62.5%; margin-top: auto;">
+      <div style="margin-top: 5%">
+        <img class="card-img-top" src="..." id="spotimg" alt=''>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" style="background-color: #141414; border-color: #141414"><font size="-0.5"><span style="color: #dbd9d8" id="trackname"></span></font><br><font size="-3"><span style="color: #ada9a7" id="songartists"></span></font></li>
+          <li class="list-group-item" style="background-color: #141414; border-color: #a19496"><font size="+2"><span style="color: #ebdce1" id="artistname"></span></font><br><font size="-1.75"><span style="color: #dbd9d8" id="followers"></span></font><br><font size="-1.75"><span style="color: #ada9a7" id="genres"></span></font></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+    {% for artist in relatedartists['artists'] %}
+            <div class='{{ recommended_artists[artist["id"]][2] }}'>
+                <div style='height: 100%; width: 100%; object-fit: contain; max-width: 135px; max-height: 135px; overflow: hidden; position: relative; left: -70%;'>
+                    <td>
+                        <form action="/getartists" method="post">
+                            <button type="submit" name="artist_name" class="button" value="{{ artist['name'] }}" onclick="loading()">
+                                <img id="{{ artist['uri'] }}" src='{{ artist['images'][0]['url'] }}' width="135" value="PLAY" onmouseover="play( '{{ artist['name'] }}' ); card( '{{ artist['uri'] }}' ); tracktitle( '{{ songname[artist['uri']] }}' ); artistnames( '{{ performers[artist['uri']] }}' ); genrelist( '{{ recommended_artists[artist["id"]][1] }}' ); followercount( '{{ recommended_artists[artist["id"]][0] }}' )" onmouseout="stop( '{{ artist['name'] }}' ); card('off'); tracktitle('off'); artistnames('off'); genrelist('off'); followercount('off')"/>
+                            </button>
+                        </form>
+                        <audio id="{{ artist['name'] }}" src='{{ url[artist['name']] }}' preload="auto"></audio>
+                    </td>
+                </div>
+            </div>
+    {% endfor %}
+    </div>
+  </div>
+{% endblock %}

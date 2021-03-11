@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Song Recommendations
+{% endblock %}
+
+{% block main %}
+    <script>
+      function field(name){
+          var display = document.getElementById('div2').style.display
+          if (display == 'none') {
+            document.getElementById('input2').value = "";
+            document.getElementById('div2').style.display = "inline-block";
+            return;
+          }
+          var display = document.getElementById('div3').style.display
+          if (display == 'none') {
+            document.getElementById('input3').value = "";
+            document.getElementById('div3').style.display = "inline-block";
+            return;
+          }
+          var display = document.getElementById('div4').style.display
+          if (display == 'none') {
+            document.getElementById('input4').value = "";
+            document.getElementById('div4').style.display = "inline-block";
+            return;
+          }
+          var display = document.getElementById('div5').style.display
+          if (display == 'none') {
+            document.getElementById('input5').value = "";
+            document.getElementById('div5').style.display = "inline-block";
+            return;
+          }
+      }
+      function loading() {
+          $("#loading").show();
+          $("#content").hide();
+      }
+    </script>
+    <div id="loading"><img src= "/static/loading.gif" width="250" style="position: top left"></div>
+    <div id="content">
+        <form action="/gettracks" method="post">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="input1" placeholder="Track Name" type="text" id="input1" style="color: #ebdce1; background-color: #1c1c1c;">
+            </div>
+            <div class="form-group">
+                <div id="div2" style="display:none">
+                    <input autocomplete="off" autofocus class="form-control" name="input2" placeholder="Track Name" type="text" value="Track Name" id="input2" style="color: #ebdce1; background-color: #1c1c1c;">
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="div3" style="display:none">
+                    <input autocomplete="off" autofocus class="form-control" name="input3" placeholder="Track Name" type="text" value="Track Name" id="input3" style="color: #ebdce1; background-color: #1c1c1c;">
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="div4" style="display:none">
+                    <input autocomplete="off" autofocus class="form-control" name="input4" placeholder="Track Name" type="text" value="Track Name" id="input4" style="color: #ebdce1; background-color: #1c1c1c;">
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="div5" style="display:none">
+                    <input autocomplete="off" autofocus class="form-control" name="input5" placeholder="Track Name" type="text" value="Track Name" id="input5" style="color: #ebdce1; background-color: #1c1c1c;">
+                </div>
+            </div>
+            <div>
+                <input type="button" name="show" style="color: #1c1c1c; background-color: #ebdce1" value="+" onclick="field('div2')"/>
+            </div>
+            <div>
+                &nbsp
+            </div>
+            <button class="btn btn-primary" type="submit" onclick="loading()" style="color: #1c1c1c; background-color: #ebdce1; border-color: #a19496">Submit</button>
+        </form>
+    </div>
+{% endblock %}
