@@ -1,7 +1,7 @@
-# CS50 Discover
+# Findify
 
 ### DESCRIPTION
-CS50 Discover is my CS50 final project, and can recommend artists and songs based on users' input, while also allowing users to preview music. All of this is accomplished using Spotify's Web API.
+Findify was my CS50 final project, and can recommend artists and songs based on users' input, while also allowing users to preview music. All of this is accomplished using Spotify's Web API.
 The use of this web application is *recommended on a PC* rather than a mobile device due to it's use of hovering functions.
 
 
